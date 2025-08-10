@@ -1,0 +1,27 @@
+Procgen plan - Design overview + principles
+
+ 
+
+Deterministic seeds: Everything hangs off a single Seed. Use FRandomStream so the same seed makes same map.
+
+Rules before randomness: Define constraints (room sizes, door rules, connectivity, min corridor width) first; randomness picks within those rules.
+
+Two scales:
+Macro = layout graph (rooms + corridors, connectivity).
+Micro = tile geometry + props/encounters per cell with placement rules.
+
+Multi-pass pipeline: Layout -> carve -> decorate -> validate -> bake nav. Each pass is simple and testable.
+
+Modular kit: A small tileset (floor, wall, corner, door, stairs) with rotation variants; spawn via HISM for perf.
+
+Connectivity targets: Guarantee start<->goal path, minimum reachable %, optional loops to reduce linearity.
+
+Determinism & netplay: Keep all map decisions in C++ with FRandomStream. No FMath::Rand().
+
+Performance: Use UHierarchicalInstancedStaticMeshComponent (HISM) for floors/walls; stream chunks if map is big.
+
+Debuggability: On-screen seed, toggle wireframe/heatmaps, draw layout graph, press R to regenerate.
+
+Nav/AI: Build nav after spawn. Keep nav bounds correct; avoid dynamic obstacles in corridors.
+
+Authorial control: DataAssets for “biomes” (tile meshes, prop weights, enemy tables, lighting moods).
