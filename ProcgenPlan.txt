@@ -1,6 +1,11 @@
 Procgen plan - Design overview + principles
 
- 
+ A room–corridor grid dungeon:			
+Grid cell size = tile mesh size (e.g., 400×400 cm).
+Rooms are rectangles stamped on the grid (BSP or Poisson disk to spread).
+Corridors are Manhattan paths between room doors (A* on grid).
+Biome swaps tiles/props without touching the generator.
+
 
 Deterministic seeds: Everything hangs off a single Seed. Use FRandomStream so the same seed makes same map.
 
